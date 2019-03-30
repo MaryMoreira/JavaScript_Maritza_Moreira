@@ -4,7 +4,8 @@ var Calculadora = {
   init: function(){
     // elementos de la calculadora
     this.teclas  = document.querySelectorAll(".tecla");
-
+    this.calculadoraFondo = document.getElementById("calculadoraFondo");
+    this.calculadoraFondo.style.background = "rgb(153,153,153)";
 
     this.assignEventTecla();
   },
@@ -12,9 +13,9 @@ var Calculadora = {
   assignEventTecla: function(){
 
     for(var i = 0; i < this.teclas.length; ++i){
-      this.teclas[i].onclick  = this.eventTeclaOnClick;
-      //this.teclas[i].onkeydown = this.eventTeclaPequenia;
-      //this.teclas[i].onkeyup   = this.eventRestaurarTeclaPequeña;
+      this.teclas[i].onclick     = this.eventTeclaOnClick;
+      this.teclas[i].onmousedown = this.eventTeclaPequenia;
+      this.teclas[i].onmouseup   = this.eventRestaurarTeclaPequenia;
     }
   },
   // funcion que atieende al evento onclick de las teclas
@@ -47,6 +48,9 @@ var Calculadora = {
       case "mas":
         valorPantalla = colocarOperacion(display, "+");
         break;
+      case "raiz":
+        valorPantalla = "";
+        break;
       default:
         valorPantalla = colocarNumero(display, event.target.id);
         break;
@@ -55,16 +59,47 @@ var Calculadora = {
     display.textContent = valorPantalla;
   },
 
+  // evento que realiza la tecla pequena cuando se presiona
   eventTeclaPequenia: function(event){
-    event.target.style.width = "18%";
-    event.target.style.height = "58px";
-    console.log('d', event.target);
+    var width, height;
+    switch (event.target.id) {
+      case "on":
+      case "sign":
+      case "raiz":
+      case "dividido":
+      case "por":
+      case "menos":
+      case "7":
+      case "8":
+      case "9":
+      case "4":
+      case "5":
+      case "6":
+      width  = "21.5%";
+      height = "62px";
+        break;
+
+      case "mas":
+      width  = "88%";
+      height = "98%";
+        break;
+
+      case "punto":
+      case "igual":
+      case "1":
+      case "2":
+      case "3":
+      width  = "28%";
+      height = "62px";
+        break;
+    }
+
+    event.target.style.width = width;
+    event.target.style.height = height;
   },
 
   eventRestaurarTeclaPequenia: function(event){
-    event.target.style.width = "22%";
-    event.target.style.height = "62.91px";
-    console.log('f', event.target);
+    event.target.style = {};
   },
 
 }
